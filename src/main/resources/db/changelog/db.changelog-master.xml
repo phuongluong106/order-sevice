@@ -1,0 +1,58 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Phuong.LuongH (generated)" id="1676045545002-1">
+        <createTable tableName="ORDERS">
+            <column autoIncrement="true" computed="false" name="ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__ORDER__3214EC27E1A307D7"/>
+            </column>
+            <column computed="false" name="SHOP_ID" type="int"/>
+            <column computed="false" name="CUSTOMER_ID" type="int"/>
+            <column computed="false" name="PRICE" type="money"/>
+            <column computed="false" name="MENU_IDS" type="text"/>
+            <column computed="false" name="STATUS" type="varchar(255)"/>
+            <column computed="false" name="CREATED_DATE" type="datetime"/>
+            <column computed="false" name="UPDATED_DATE" type="datetime"/>
+            <column computed="false" name="QUEUE_ID" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Phuong.LuongH (generated)" id="1676045545002-2">
+        <createTable tableName="ORDER_EVENTS">
+            <column autoIncrement="true" computed="false" name="ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__ORDER_EV__3214EC27D830B330"/>
+            </column>
+            <column computed="false" name="EVENT_NAME" type="varchar(255)"/>
+            <column computed="false" name="SHOP_ID" type="int"/>
+            <column computed="false" name="CUSTOMER_ID" type="int"/>
+            <column computed="false" name="DATA" type="text"/>
+            <column computed="false" name="STATUS" type="varchar(255)"/>
+            <column computed="false" name="CREATED_DATE" type="datetime"/>
+            <column computed="false" name="UPDATED_DATE" type="datetime"/>
+            <column computed="false" name="ORDER_ID" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Phuong.LuongH (generated)" id="1676045545002-3">
+        <createTable tableName="ORDER_QUEUE">
+            <column autoIncrement="true" computed="false" name="ID" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK__ORDER_QU__3214EC274335EB58"/>
+            </column>
+            <column computed="false" name="SHOP_ID" type="int"/>
+            <column computed="false" name="QUEUE_SIZE" type="int"/>
+            <column computed="false" name="QUEUE_INDEX" type="int"/>
+            <column computed="false" name="ORDER_IN_QUEUE" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Phuong.LuongH (generated)" id="1676045545002-4">
+        <addForeignKeyConstraint baseColumnNames="QUEUE_ID" baseTableName="ORDERS" constraintName="FK__ORDER__QUEUE_ID__1CF15040" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableName="ORDER_QUEUE" validate="true"/>
+    </changeSet>
+    <changeSet author="Phuong.LuongH (generated)" id="1676045545002-5">
+        <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_EVENTS" constraintName="FK_ORDER_EVENTS_ORDERS" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID" referencedTableName="ORDERS" validate="true"/>
+    </changeSet>
+    <changeSet author="Phuong.LuongH (generated)" id="1676045554316-1">
+        <insert tableName="ORDER_QUEUE">
+            <column name="SHOP_ID" valueNumeric="1"/>
+            <column name="QUEUE_SIZE" valueNumeric="5"/>
+            <column name="QUEUE_INDEX" valueNumeric="1"/>
+            <column name="ORDER_IN_QUEUE" valueNumeric="0"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

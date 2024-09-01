@@ -1,0 +1,100 @@
+# ===================================================================
+# Spring Boot configuration for the "prod" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+logging:
+    level:
+        ROOT: INFO
+        vn.homecredit.esupplement: DEBUG
+    file:
+        path: logs
+spring:
+    application:
+        name: OrderService
+    devtools:
+        restart:
+            enabled: false
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost:5432/OrderDB
+        username: postgres
+        password: 123
+        hikari:
+            poolName: Order-Hikari
+            auto-commit: false
+    jpa:
+        open-in-view: false
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        database: SQL_SERVER
+        show-sql: true
+        hibernate:
+            ddl-auto: none
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+                implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        properties:
+            hibernate.jdbc.time_zone: Asia/Ho_Chi_Minh
+            hibernate.id.new_generator_mappings: true
+            hibernate.connection.provider_disables_autocommit: true
+            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: true
+            hibernate.jdbc.batch_size: 1000
+    liquibase:
+        change-log: classpath:/db/changelog/db.changelog-master.xml
+
+# ===================================================================
+# Server Config
+#
+# ===================================================================
+server:
+    port: 8080
+    compression:
+        enabled: true
+        mime-types: application/json
+        min-response-size: 1024
+    tomcat:
+        basedir: ${logging.path}
+        accesslog:
+            directory: /dev
+            enabled: true
+            prefix: stdout
+            buffered: false
+            suffix:
+            file-date-format:
+            pattern: '{"thread":"%I","@timestamp":"%t","logger_name":"AccessLogger","host":"%h","uri":"%r","httpStatus":%s,"bytes":%b,"time":%D,"traceId":"%{traceId}r-%{spanId}r"}'
+            #pattern: '%h %l %u %t "%r" %s %b %D'
+management:
+    metrics:
+        enabled: true
+        tags:
+            application: ${spring.application.name}
+    endpoints:
+        web:
+            exposure.include: "*"
+            base-path: /api/actuator
+    endpoint:
+        health:
+            sensitive: false
+            show-details: always
+            db.enabled: true
+            defaults.enabled: true
+    prometheus:
+        metrics:
+            export:
+                enabled: true
+auth:
+    users:
+        -
+            username: GMA_User
+            password: $2a$10$jVdB0IUvu9DaSVLKsRvaPet4.EsLXwFVsBRrVMYw/GKFzu1Xkibt. #GMA_User
+            channel: GMA
