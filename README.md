@@ -17,4 +17,4 @@ access: http://127.0.0.1:8080/swagger-ui.html
 Test
 </br>
 # NOTE:
-I used sql server. You can change config values in application-dev.yml 
+I used postgre. You can change config values in application-dev.yml 
